@@ -5,6 +5,7 @@ import Login from "../pages/Login"
 import UserDashboard from "../pages/user/UserDashboard"
 import CoachDashboard from "../pages/coach/CoachDashboard"
 import AdminDashboard from "../pages/admin/AdminDashboard"
+import ProtectedRoute from "./ProtectedRoute";
 
 import UserLayout from "../layouts/UserLayout"
 import CoachLayout from "../layouts/CoachLayout"
@@ -17,17 +18,38 @@ function AppRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                
-                <Route path="/user" element={<UserLayout />}>
+
+                <Route
+                    path="/user"
+                    element={
+                        <ProtectedRoute>
+                            <UserLayout />
+                        </ProtectedRoute>
+                    }
+                >
                     <Route path="dashboard" element={<UserDashboard />} />
                     <Route path="pp" element={<h1>Hola</h1>} />
                 </Route>
-                
-                <Route path="/coach" element={<CoachLayout />}>
+
+                <Route
+                    path="/coach"
+                    element={
+                        <ProtectedRoute>
+                            <CoachLayout />
+                        </ProtectedRoute>
+                    }
+                >
                     <Route path="dashboard" element={<CoachDashboard />} />
                 </Route>
-                
-                <Route path="/admin" element={<AdminLayout />}>
+
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute>
+                            <AdminLayout />
+                        </ProtectedRoute>
+                    }
+                >
                     <Route path="dashboard" element={<AdminDashboard />} />
                 </Route>
             </Routes>
