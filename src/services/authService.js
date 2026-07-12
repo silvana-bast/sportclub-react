@@ -1,34 +1,28 @@
+import api from "./api"
+
 export const login = async (email, password) => {
+  try {
+    const response = await api.post("/auth/login", { email, password })
+    return response.data
+  } catch (error) {
+    return { ok: false, message: error.message }
+  }
+}
 
-    try {
+export const register = async (payload) => {
+  try {
+    const response = await api.post("/auth/register", payload)
+    return response.data
+  } catch (error) {
+    return { ok: false, message: error.message }
+  }
+}
 
-        const response = await fetch(
-            "http://localhost:3000/api/auth/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        return data;
-
-    } catch (error) {
-
-        console.error(error);
-
-        return {
-            ok: false,
-            message: "No fue posible conectar con el servidor."
-        };
-
-    }
-
-};
+export const getMe = async () => {
+  try {
+    const response = await api.get("/auth/me")
+    return response.data
+  } catch (error) {
+    return { ok: false, message: error.message }
+  }
+}

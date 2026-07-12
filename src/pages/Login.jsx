@@ -1,98 +1,78 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
-import { login } from "../services/authService";
+import { login as loginRequest } from "../services/authService";
+import { useAuth } from "../context/useAuth";
+import { isValidEmail, isValidPassword } from "../utils/validators";
+import { notifySuccess, notifyError } from "../utils/alerts";
 
 function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        // Validar correo
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailRegex.test(email)) {
-            alert("Ingrese un correo electrónico válido.\nEjemplo: usuario@demo.cl");
+        if (!isValidEmail(email)) {
+            notifyError("Ingrese un correo electrónico válido. Ejemplo: usuario@demo.cl");
             return;
         }
 
-        // Validar contraseña
-        if (password.length < 8) {
-            alert("La contraseña debe tener al menos 8 caracteres.");
+        if (!isValidPassword(password)) {
+            notifyError("La contraseña debe tener al menos 8 caracteres.");
             return;
         }
 
-        try {
+        setSubmitting(true);
 
-            const respuesta = await login(email, password);
+        const respuesta = await loginRequest(email, password);
 
-            console.log(respuesta);
+        setSubmitting(false);
 
-            if (respuesta.ok) {
+        if (respuesta.ok) {
 
-                // Guardar token
-                localStorage.setItem(
-                    "token",
-                    respuesta.data.token
-                );
+            login(respuesta.data.token, respuesta.data.user);
 
-                // Guardar usuario
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(respuesta.data.user)
-                );
+            notifySuccess("Bienvenido " + respuesta.data.user.full_name);
 
-                alert(
-                    "Bienvenido " +
-                    respuesta.data.user.full_name
-                );
+            const rol = respuesta.data.user.role;
 
-                const rol = respuesta.data.user.role;
-
-                if (rol === "admin") {
-
-                    navigate("/admin/dashboard");
-
-                } else if (rol === "coach") {
-
-                    navigate("/coach/dashboard");
-
-                } else {
-
-                    navigate("/user/dashboard");
-
-                }
-
+            if (rol === "admin") {
+                navigate("/admin/dashboard");
+            } else if (rol === "coach") {
+                navigate("/coach/dashboard");
             } else {
-
-                alert(respuesta.message);
-
+                navigate("/user/dashboard");
             }
 
-        } catch (error) {
+        } else {
 
-            console.error(error);
-
-            alert("No fue posible conectar con el servidor.");
+            notifyError(respuesta.message);
 
         }
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center vh-100">
+        <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 sc-hero py-5">
 
-            <Card style={{ width: "420px" }}>
+            <Card className="border-0" style={{ width: "420px", borderRadius: "var(--sc-radius-lg)", boxShadow: "var(--sc-shadow-lg)" }}>
 
-                <Card.Body>
+                <Card.Body className="p-4 p-md-5">
 
-                    <h2 className="text-center mb-4">
-                        Login SportClub
-                    </h2>
+                    <div className="text-center mb-4">
+                        <div className="sc-icon-tile mx-auto mb-3">
+                            <i className="bi bi-shield-lock-fill" />
+                        </div>
+                        <h2 className="mb-1">
+                            Bienvenido de vuelta
+                        </h2>
+                        <p className="mb-0">Inicia sesión en tu cuenta de SportClub</p>
+                    </div>
 
                     <Form onSubmit={handleLogin}>
 
@@ -112,7 +92,7 @@ function Login() {
 
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-4">
 
                             <Form.Label>
                                 Contraseña
@@ -124,7 +104,6 @@ function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 minLength={8}
-                                minLength={8}
                                 required
                             />
 
@@ -134,9 +113,15 @@ function Login() {
                             variant="primary"
                             type="submit"
                             className="w-100"
+                            size="lg"
+                            disabled={submitting}
                         >
-                            Iniciar sesión
+                            {submitting ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
+
+                        <p className="text-center mt-4 mb-0">
+                            ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+                        </p>
 
                     </Form>
 

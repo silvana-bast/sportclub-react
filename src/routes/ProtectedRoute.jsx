@@ -1,16 +1,21 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, allowedRoles }) {
 
-    // Obtener el token guardado en localStorage
-    const token = localStorage.getItem("token");
+    const { isAuthenticated, user } = useAuth();
 
-    // Si no existe token, redirigir al Login
-    if (!token) {
+    // Si no hay sesión activa, volver al login
+    if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
 
-    // Si existe token, permitir acceder a la ruta
+    // Verificar si el rol está permitido
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+        return <Navigate to="/login" replace />;
+    }
+
+    // Permitir acceso
     return children;
 }
 

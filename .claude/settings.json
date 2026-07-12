@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx playwright *)",
+      "Bash(node \"C:\\\\Users\\\\SILVAN~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Silvana-Bastida-sportclub\\\\8526434b-9334-4b75-9b10-2521912713eb\\\\scratchpad\\\\e2e.mjs\")",
+      "Bash(node visual-check.mjs)"
+    ]
+  }
+}
