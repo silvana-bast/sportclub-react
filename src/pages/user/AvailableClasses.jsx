@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Table, Button, Spinner, Alert, Badge } from "react-bootstrap";
+import { Table, Button, Alert, Badge } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import { useFetch } from "../../hooks/useFetch";
 import { getAvailableClasses } from "../../services/memberService";
 import { getMyReservations, createReservation } from "../../services/reservationService";
@@ -61,9 +62,7 @@ function AvailableClasses() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>

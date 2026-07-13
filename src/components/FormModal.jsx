@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { Modal, Button, Form, Spinner } from "react-bootstrap"
 
 function FormModal({
@@ -28,12 +29,29 @@ function FormModal({
             Cancelar
           </Button>
           <Button variant="primary" type="submit" disabled={submitting}>
-            {submitting ? <Spinner animation="border" size="sm" /> : submitLabel}
+            {submitting ? (
+              <>
+                <Spinner animation="border" size="sm" aria-hidden="true" />
+                <span className="visually-hidden">Guardando...</span>
+              </>
+            ) : (
+              submitLabel
+            )}
           </Button>
         </Modal.Footer>
       </Form>
     </Modal>
   )
+}
+
+FormModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  title: PropTypes.node.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  submitLabel: PropTypes.string,
+  submitting: PropTypes.bool,
+  children: PropTypes.node,
 }
 
 export default FormModal

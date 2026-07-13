@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Table, Button, Form, Badge, Spinner, Alert, Row, Col } from "react-bootstrap";
+import { Table, Button, Form, Badge, Alert, Row, Col } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import FormModal from "../../components/FormModal";
 import { useFetch } from "../../hooks/useFetch";
 import { listRooms, createRoom, updateRoom, deleteRoom } from "../../services/roomService";
@@ -146,9 +147,7 @@ function RoomsManagement() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
@@ -211,13 +210,13 @@ function RoomsManagement() {
         submitting={submitting}
         submitLabel={editingRoom ? "Guardar cambios" : "Crear sala"}
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="roomName">
           <Form.Label>Nombre</Form.Label>
           <Form.Control value={form.name} onChange={handleChange("name")} required />
         </Form.Group>
 
         <Row className="mb-3">
-          <Col>
+          <Col as={Form.Group} controlId="roomCapacity">
             <Form.Label>Capacidad</Form.Label>
             <Form.Control
               type="number"
@@ -227,7 +226,7 @@ function RoomsManagement() {
               required
             />
           </Col>
-          <Col>
+          <Col as={Form.Group} controlId="roomLocation">
             <Form.Label>Ubicación</Form.Label>
             <Form.Control
               value={form.location}
@@ -238,7 +237,7 @@ function RoomsManagement() {
           </Col>
         </Row>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="roomDescription">
           <Form.Label>Descripción</Form.Label>
           <Form.Control
             as="textarea"
@@ -250,7 +249,7 @@ function RoomsManagement() {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="roomObservation">
           <Form.Label>Observación</Form.Label>
           <Form.Control
             as="textarea"

@@ -70,29 +70,31 @@ function Register() {
           </div>
 
           <Form onSubmit={handleRegister}>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="registerFullName">
               <Form.Label>Nombre completo</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingrese su nombre completo"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                autoComplete="name"
                 required
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="registerEmail">
               <Form.Label>Correo electrónico</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Ingrese su correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 required
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="registerBirthDate">
               <Form.Label>Fecha de nacimiento (opcional)</Form.Label>
               <Form.Control
                 type="date"
@@ -101,7 +103,7 @@ function Register() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="registerPassword">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 type="password"
@@ -109,11 +111,12 @@ function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 minLength={8}
+                autoComplete="new-password"
                 required
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="registerConfirmPassword">
               <Form.Label>Confirmar contraseña</Form.Label>
               <Form.Control
                 type="password"
@@ -121,6 +124,7 @@ function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 minLength={8}
+                autoComplete="new-password"
                 required
               />
             </Form.Group>

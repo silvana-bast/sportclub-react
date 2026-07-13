@@ -1,4 +1,5 @@
-import { Table, Badge, Spinner, Alert, Card } from "react-bootstrap";
+import { Table, Badge, Alert, Card } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import { useFetch } from "../../hooks/useFetch";
 import { getMyClasses } from "../../services/coachService";
 import { dayLabel } from "../../utils/constants";
@@ -13,9 +14,7 @@ function MyClasses() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (assignments ?? []).length === 0 ? (
         <Alert variant="info">Aún no tienes clases asignadas.</Alert>
       ) : (

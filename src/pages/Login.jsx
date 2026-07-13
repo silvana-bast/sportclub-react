@@ -76,7 +76,7 @@ function Login() {
 
                     <Form onSubmit={handleLogin}>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="loginEmail">
 
                             <Form.Label>
                                 Correo electrónico
@@ -87,12 +87,13 @@ function Login() {
                                 placeholder="Ingrese su correo electrónico"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                autoComplete="email"
                                 required
                             />
 
                         </Form.Group>
 
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4" controlId="loginPassword">
 
                             <Form.Label>
                                 Contraseña
@@ -104,6 +105,7 @@ function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 minLength={8}
+                                autoComplete="current-password"
                                 required
                             />
 

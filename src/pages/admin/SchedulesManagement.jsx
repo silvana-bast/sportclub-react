@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Table, Button, Form, Badge, Spinner, Alert, Row, Col } from "react-bootstrap";
+import { Table, Button, Form, Badge, Alert, Row, Col } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import FormModal from "../../components/FormModal";
 import { useFetch } from "../../hooks/useFetch";
 import {
@@ -132,9 +133,7 @@ function SchedulesManagement() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
@@ -199,7 +198,7 @@ function SchedulesManagement() {
         submitting={submitting}
         submitLabel={editingSchedule ? "Guardar cambios" : "Crear horario"}
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="scheduleAssignment">
           <Form.Label>Asignación (Deporte · Sala · Coach)</Form.Label>
           <Form.Select value={form.sport_room_id} onChange={handleChange("sport_room_id")} required>
             <option value="">Seleccione una asignación</option>
@@ -211,7 +210,7 @@ function SchedulesManagement() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="scheduleDayOfWeek">
           <Form.Label>Día de la semana</Form.Label>
           <Form.Select value={form.day_of_week} onChange={handleChange("day_of_week")}>
             {DAYS_OF_WEEK.map((day) => (
@@ -223,7 +222,7 @@ function SchedulesManagement() {
         </Form.Group>
 
         <Row className="mb-3">
-          <Col>
+          <Col as={Form.Group} controlId="scheduleStartTime">
             <Form.Label>Hora inicio</Form.Label>
             <Form.Control
               type="time"
@@ -232,7 +231,7 @@ function SchedulesManagement() {
               required
             />
           </Col>
-          <Col>
+          <Col as={Form.Group} controlId="scheduleEndTime">
             <Form.Label>Hora término</Form.Label>
             <Form.Control
               type="time"

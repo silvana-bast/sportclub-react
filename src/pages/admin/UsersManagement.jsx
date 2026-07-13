@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Table, Button, Form, Badge, Spinner, Alert } from "react-bootstrap";
+import { Table, Button, Form, Badge, Alert } from "react-bootstrap";
 import FormModal from "../../components/FormModal";
+import PageSpinner from "../../components/PageSpinner";
 import { useFetch } from "../../hooks/useFetch";
 import { listUsers, createUser, updateUser, deleteUser } from "../../services/userService";
 import { confirmDelete, notifySuccess, notifyError } from "../../utils/alerts";
@@ -134,9 +135,7 @@ function UsersManagement() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
@@ -195,12 +194,12 @@ function UsersManagement() {
         submitting={submitting}
         submitLabel={editingUser ? "Guardar cambios" : "Crear usuario"}
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="userFullName">
           <Form.Label>Nombre completo</Form.Label>
           <Form.Control value={form.full_name} onChange={handleChange("full_name")} required />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="userEmail">
           <Form.Label>Correo electrónico</Form.Label>
           <Form.Control
             type="email"
@@ -211,19 +210,20 @@ function UsersManagement() {
         </Form.Group>
 
         {!editingUser && (
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3" controlId="userPassword">
             <Form.Label>Contraseña</Form.Label>
             <Form.Control
               type="password"
               value={form.password}
               onChange={handleChange("password")}
               minLength={8}
+              autoComplete="new-password"
               required
             />
           </Form.Group>
         )}
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="userRole">
           <Form.Label>Rol</Form.Label>
           <Form.Select value={form.role} onChange={handleChange("role")}>
             <option value="user">Usuario</option>
@@ -232,7 +232,7 @@ function UsersManagement() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="userBirthDate">
           <Form.Label>Fecha de nacimiento</Form.Label>
           <Form.Control
             type="date"

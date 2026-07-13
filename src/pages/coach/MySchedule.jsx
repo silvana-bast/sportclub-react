@@ -1,4 +1,5 @@
-import { Table, Spinner, Alert } from "react-bootstrap";
+import { Table, Alert } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import { useFetch } from "../../hooks/useFetch";
 import { getMySchedules } from "../../services/coachService";
 import { dayLabel } from "../../utils/constants";
@@ -17,9 +18,7 @@ function MySchedule() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : sortedSchedules.length === 0 ? (
         <Alert variant="info">No tienes horarios asignados todavía.</Alert>
       ) : (

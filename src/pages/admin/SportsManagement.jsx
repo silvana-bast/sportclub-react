@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Table, Button, Form, Badge, Spinner, Alert } from "react-bootstrap";
+import { Table, Button, Form, Badge, Alert } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import FormModal from "../../components/FormModal";
 import { useFetch } from "../../hooks/useFetch";
 import { listSports, createSport, updateSport, deleteSport } from "../../services/sportService";
@@ -122,9 +123,7 @@ function SportsManagement() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
@@ -187,12 +186,12 @@ function SportsManagement() {
         submitting={submitting}
         submitLabel={editingSport ? "Guardar cambios" : "Crear deporte"}
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="sportName">
           <Form.Label>Nombre</Form.Label>
           <Form.Control value={form.name} onChange={handleChange("name")} required />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="sportObjective">
           <Form.Label>Objetivo</Form.Label>
           <Form.Control
             as="textarea"
@@ -203,7 +202,7 @@ function SportsManagement() {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="sportDuration">
           <Form.Label>Duración (minutos)</Form.Label>
           <Form.Control
             type="number"

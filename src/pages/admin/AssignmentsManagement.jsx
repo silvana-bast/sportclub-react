@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
-import { Table, Button, Form, Badge, Spinner, Alert } from "react-bootstrap";
+import { Table, Button, Form, Badge, Alert } from "react-bootstrap";
+import PageSpinner from "../../components/PageSpinner";
 import FormModal from "../../components/FormModal";
 import { useFetch } from "../../hooks/useFetch";
 import {
@@ -127,9 +128,7 @@ function AssignmentsManagement() {
       {error && <Alert variant="danger">{error}</Alert>}
 
       {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
+        <PageSpinner />
       ) : (
         <div className="table-responsive">
           <Table striped bordered hover>
@@ -192,7 +191,7 @@ function AssignmentsManagement() {
         submitting={submitting}
         submitLabel={editingAssignment ? "Guardar cambios" : "Crear asignación"}
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="assignmentSport">
           <Form.Label>Deporte</Form.Label>
           <Form.Select value={form.sport_id} onChange={handleChange("sport_id")} required>
             <option value="">Seleccione un deporte</option>
@@ -204,7 +203,7 @@ function AssignmentsManagement() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="assignmentRoom">
           <Form.Label>Sala</Form.Label>
           <Form.Select value={form.room_id} onChange={handleChange("room_id")} required>
             <option value="">Seleccione una sala</option>
@@ -216,7 +215,7 @@ function AssignmentsManagement() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="assignmentCoach">
           <Form.Label>Coach</Form.Label>
           <Form.Select value={form.coach_id} onChange={handleChange("coach_id")} required>
             <option value="">Seleccione un coach</option>
@@ -228,7 +227,7 @@ function AssignmentsManagement() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="assignmentObservation">
           <Form.Label>Observación</Form.Label>
           <Form.Control
             as="textarea"

@@ -55,22 +55,22 @@ function Profile() {
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Col>
+              <Col as={Form.Group} controlId="profileEmail">
                 <Form.Label>Correo electrónico</Form.Label>
                 <Form.Control value={user.email} disabled />
               </Col>
-              <Col>
+              <Col as={Form.Group} controlId="profileRole">
                 <Form.Label>Rol</Form.Label>
                 <Form.Control value={ROLE_LABEL[user.role] ?? user.role} disabled />
               </Col>
             </Row>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="profileFullName">
               <Form.Label>Nombre completo</Form.Label>
               <Form.Control value={fullName} onChange={(e) => setFullName(e.target.value)} required />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="profileBirthDate">
               <Form.Label>Fecha de nacimiento</Form.Label>
               <Form.Control
                 type="date"
